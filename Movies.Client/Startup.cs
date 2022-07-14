@@ -29,16 +29,13 @@ namespace Notes.Client
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
             services.AddScoped<INoteApiService, NoteApiService>();
 
 
-            // http operations
-
-            // 1 create an HttpClient used for accessing the Notes.API
+         
             services.AddTransient<AuthenticationDelegatingHandler>();
            
             services.AddHttpClient("NoteAPIClient", client =>
@@ -49,7 +46,6 @@ namespace Notes.Client
             }).AddHttpMessageHandler<AuthenticationDelegatingHandler>();
 
 
-            // 2 create an HttpClient used for accessing the IDP
             services.AddHttpClient("IDPClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:5005/");
@@ -59,15 +55,6 @@ namespace Notes.Client
 
             services.AddHttpContextAccessor();
 
-            //services.AddSingleton(new ClientCredentialsTokenRequest
-            //{                                                
-            //    Address = "https://localhost:5005/connect/token",
-            //    ClientId = "noteClient",
-            //    ClientSecret = "secret",
-            //    Scope = "noteAPI"
-            //});
-
-            // http operations
 
 
             services.AddAuthentication(options =>
@@ -83,9 +70,6 @@ namespace Notes.Client
                     options.ClientId = "notes_mvc_client";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code id_token";
-
-                    //options.Scope.Add("openid");
-                    //options.Scope.Add("profile");
                     options.Scope.Add("address");
                     options.Scope.Add("email");
                     options.Scope.Add("roles");
@@ -109,7 +93,6 @@ namespace Notes.Client
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -119,7 +102,6 @@ namespace Notes.Client
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

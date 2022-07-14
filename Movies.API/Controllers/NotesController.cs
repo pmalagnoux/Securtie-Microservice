@@ -30,7 +30,7 @@ namespace Notes.API.Controllers
             return await _context.Note.ToListAsync();
         }
 
-        // GET: api/Notes/5
+        // GET: api/Notes/id
         [HttpGet("{id}")]
         public async Task<ActionResult<Note>> GetNote(int id)
         {
@@ -44,9 +44,7 @@ namespace Notes.API.Controllers
             return note;
         }
 
-        // PUT: api/Notes/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // PUT: api/Notes/id
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNote(int id, Note note)
         {
@@ -77,8 +75,6 @@ namespace Notes.API.Controllers
         }
 
         // POST: api/Notes
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Note>> PostNote(Note note)
         {
@@ -88,7 +84,7 @@ namespace Notes.API.Controllers
             return CreatedAtAction("GetNote", new { id = note.Id }, note);
         }
 
-        // DELETE: api/Notes/5
+        // DELETE: api/Notes/id
         [HttpDelete("{id}")]
         public async Task<ActionResult<Note>> DeleteNote(int id)
         {
